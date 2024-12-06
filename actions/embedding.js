@@ -2,7 +2,7 @@
 
 import { post } from "../tools/request.js";
 import { extractAPIKeyFromRequest, validateAPIKey } from "../tools/apiKey.js";
-import { getDatasetFromURL, loadDataset, parseDatasetWithoutVector } from "../database/rag-inference.js";
+import { getDatasetFromURL, loadDataset, loadFile, parseDatasetWithoutVector } from "../database/rag-inference.js";
 
 // Copyright [2024] [SkywardAI]
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -73,6 +73,7 @@ export async function uploadDataset(req, res) {
     }
 
     const { name, json, url, force, keep_records } = req.body;
+
     if(!name || (!json && !url)) {
         res.status(422).send("Please specify dataset name and one choice of json / url.");
         return;
@@ -84,7 +85,6 @@ export async function uploadDataset(req, res) {
             const dataset = url ? 
                 await getDatasetFromURL(url) : 
                 await parseDatasetWithoutVector(json);
-
             await loader(dataset, force && keep_records);
         } catch(error) {
             res.status(500).send(error.message)
@@ -92,4 +92,43 @@ export async function uploadDataset(req, res) {
     }
 
     res.status(200).send("Dataset loaded");
+}
+
+/**
+ * 
+ * @param {Request} req 
+ * @param {Response} res 
+ */
+export async function uploadFile(req, res) {
+    res.status(200).send("Hello from rag file");
+    return;
+    // if(!validateAPIKey(extractAPIKeyFromRequest(req))) {
+    //     res.status(401).send("Not Authorized!");
+    //     return;
+    // }
+
+    // const { name, json, file, force, keep_records } = req.body;
+
+    // if(!name || (!json && !file)) {
+    //     res.status(422).send("Please specify file name and one choice of json / url.");
+    //     return;
+    // }
+
+    // const loader = await loadFile(name, force);
+    // if (loader) {
+    //     try {
+    //         const file_data = await getFiledataFromFilename(file);
+    //         if (!file_data) {
+    //             res.send(400).send("No file found");
+                // return;
+    //         }
+    //         console.log(file_data);
+    //         await loader(file_data);
+    //     } catch (error) {
+    //         res.status(500).send(error.message);
+    //     }
+    // }
+
+    // res.status(200).send("File loaded");
+// return;
 }

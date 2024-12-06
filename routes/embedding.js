@@ -14,7 +14,7 @@
 // limitations under the License.
 
 import { Router } from "express";
-import { embeddings, uploadDataset } from "../actions/embedding.js";
+import { embeddings, uploadDataset, uploadFile } from "../actions/embedding.js";
 import { isRouteEnabled } from "../tools/enabledApiDecoder.js";
 
 export default function embeddingRoute() {
@@ -22,6 +22,7 @@ export default function embeddingRoute() {
 
     isRouteEnabled("embedding", "calculate") && router.post("/", embeddings);
     isRouteEnabled("embedding", "dataset") && router.post("/dataset", uploadDataset);
+    isRouteEnabled("embedding", "file") && router.post("/file", uploadFile);
 
     return router;
 }

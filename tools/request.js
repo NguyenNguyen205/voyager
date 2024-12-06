@@ -47,7 +47,7 @@ export default async function request(url, options={}, request_options={}) {
     const getJSON = Object.hasOwn(request_options, 'getJSON') ? request_options.getJSON : true
     
     url = request_options.URL || `${BASE_URL[eng]}${url[0]!=='/' && '/'}${url}`;
-
+    console.log(url);
     options = {
         ...default_options,
         ...options

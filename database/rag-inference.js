@@ -94,7 +94,7 @@ export async function loadDataset(dataset_name, force = false) {
 
     const dataset_loaded = !!(await system_table.query()
     .where(`title="loaded_dataset_name" AND value="${dataset_name}"`).toArray()).length;
-
+    
     if(dataset_loaded && !force) return null;
 
     return async function(dataset, keep_records = false) {
@@ -112,6 +112,10 @@ export async function loadDataset(dataset_name, force = false) {
             await system_table.add([{title: "loaded_dataset_name", value: dataset_name}])
         }
     }
+}
+
+export async function loadFile(dataset_name, force = false) {
+    
 }
 
 /**

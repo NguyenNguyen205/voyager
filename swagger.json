@@ -450,6 +450,49 @@
         ]
       }
     },
+    "/v1/embeddings/file": {
+      "post": {
+        "tags": [
+          "Embedding"
+        ],
+        "summary": "Load a file into database",
+        "description": "Load a file from local folder. Requires file to be specified",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "name"
+                ],
+                "example": {
+                  "name": "aisuko/pokedex",
+                  "file": "pokedex.json"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully loaded dataset"
+          },
+          "400": {
+            "description": "File not found"
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "422": {
+            "description": "`Name` or `file` not specified."
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
     "/v1/token/api-key": {
       "get": {
         "tags": [
